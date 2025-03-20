@@ -1,0 +1,10 @@
+from django.contrib import admin
+from django.urls import path
+from core import views  # core/views.py'den import
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('prices/', views.trading_pairs, name='trading_pairs'),
+    path('pair/<str:pair>/', views.pair_detail, name='pair_detail'),
+    path('prices/json/', views.get_prices_json, name='get_prices_json'),
+]

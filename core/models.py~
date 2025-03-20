@@ -1,0 +1,12 @@
+from django.db import models
+
+# Create your models here.
+
+from django.db import models
+
+class TradingPair(models.Model):
+    base_currency = models.CharField(max_length=10)  # Örneğin: BTC
+    quote_currency = models.CharField(max_length=10) # Örneğin: USD
+
+    def __str__(self):
+        return f"{self.base_currency}/{self.quote_currency}"
