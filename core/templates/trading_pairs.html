@@ -64,20 +64,20 @@
         .atr-signal-cell .atr-high { color: #dc3545; font-size: 16px; } /* Yüksek volatilite */
         .vwap-signal-cell .vwap-up { color: #28a745; font-size: 16px; } /* VWAP yükseliş */
         .vwap-signal-cell .vwap-down { color: #dc3545; font-size: 16px; } /* VWAP düşüş */
-		.tooltip {
-		    position: absolute; /* Tooltip'in konumu */
-		    background-color: #1e90ff; /* Arka plan rengi */
-		    color: #fff; /* Metin rengi */
-		    padding: 10px; /* İç boşluk */
-		    border-radius: 4px; /* Yuvarlak köşeler */
-		    font-size: 14px; /* Yazı boyutu */
-		    max-width: 300px; /* Maksimum genişlik */
-		    white-space: normal; /* Metnin alt satıra geçmesini sağlar */
-		    line-height: 1.5; /* Satır aralığı */
-		    z-index: 1000; /* Üstte görünmesini sağlar */
-		    pointer-events: none; /* Tıklanamaz yapar */
-		    display: none; /* Varsayılan olarak gizli */
-		}
+        .tooltip {
+            position: absolute; /* Tooltip'in konumu */
+            background-color: #1e90ff; /* Arka plan rengi */
+            color: #fff; /* Metin rengi */
+            padding: 10px; /* İç boşluk */
+            border-radius: 4px; /* Yuvarlak köşeler */
+            font-size: 14px; /* Yazı boyutu */
+            max-width: 300px; /* Maksimum genişlik */
+            white-space: normal; /* Metnin alt satıra geçmesini sağlar */
+            line-height: 1.5; /* Satır aralığı */
+            z-index: 1000; /* Üstte görünmesini sağlar */
+            pointer-events: none; /* Tıklanamaz yapar */
+            display: none; /* Varsayılan olarak gizli */
+        }
     </style>
     <!-- Roboto fontunu Google Fonts'tan ekle -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
@@ -96,13 +96,11 @@
                 <th data-tooltip="ADX’in trend gücüne göre sinyali. Güçlü veya zayıf trendi gösterir.">ADX Signal</th>
                 <th data-tooltip="Fiyatın momentumunu ölçer. 70 üzeri aşırı alım, 30 altı aşırı satım demektir.">RSI</th>
                 <th data-tooltip="RSI’ya göre durum. Aşırı alım veya satım sinyali verebilir.">RSI Signal</th>
-                <!-- Ichimoku kolonu kaldırıldı -->
                 <th data-tooltip="Ichimoku sinyali: trend yönü ve alım/satım fırsatları.">Ichimoku Signal</th>
                 <th data-tooltip="ATR (Average True Range): Piyasanın volatilitesini ölçer.">ATR</th>
                 <th data-tooltip="ATR sinyali: Volatilite durumu.">ATR Signal</th>
                 <th data-tooltip="VWAP (Volume Weighted Average Price): Hacme dayalı ortalama fiyat.">VWAP</th>
                 <th data-tooltip="VWAP sinyali: Fiyatın ortalamaya göre durumu.">VWAP Signal</th>
-                <!-- Fibonacci kolonları -->
                 <th data-tooltip="Fiyata en yakın Fibonacci seviyesi. Destek veya direnç noktalarını gösterir.">Near Fibo</th>
                 <th data-tooltip="Fiyatın bu seviyede yön değiştirme olasılığı. % olarak hesaplanır.">Reversal %</th>
                 <th data-tooltip="Fiyatın bu seviyeden düşme olasılığı. %50 üzeri kırmızı, altı yeşildir.">Downtrend %</th>
@@ -121,17 +119,15 @@
                 <td data-tooltip="Trendin yönünü ve gücünü gösterir (yukarı ok: yükseliş, aşağı ok: düşüş)." class="adx-signal-cell">{{ data.adx_signal }}</td>
                 <td data-tooltip="Fiyatın hızını ölçer, 70 üstü pahalı, 30 altı ucuz anlamına gelebilir.">{{ data.rsi }}</td>
                 <td data-tooltip="RSI’nın durumu: Aşırı alım pahalı, aşırı satım ucuz demektir." class="rsi-signal-cell">{{ data.rsi_signal }}</td>
-                <!-- Ichimoku kolonu kaldırıldı -->
-				<td data-tooltip="Ichimoku sinyali, Ichimoku Bulutu analizine dayalı trend yönünü ve olası alım/satım fırsatlarını gösterir. 'Yükseliş Trendi' veya 'Düşüş Trendi' gibi sinyaller, piyasanın genel yönünü belirtir." class="ichimoku-signal-cell">{{ data.ichimoku_signal }}</td>
-				<td data-tooltip="ATR (Average True Range), piyasanın volatilitesini ölçer. Yüksek ATR, fiyatların daha fazla dalgalandığını; düşük ATR ise daha az dalgalandığını gösterir. Volatilite, risk ve işlem stratejileri için önemlidir.">{{ data.atr }}</td>
-				<td data-tooltip="ATR sinyali, ATR değerine dayalı olarak volatilitenin durumunu belirtir. 'Yüksek Volatilite' sinyali, piyasada ani fiyat hareketleri olabileceğini gösterir ve dikkatli işlem yapmayı gerektirir." class="atr-signal-cell">{{ data.atr_signal }}</td>
-				<td data-tooltip="VWAP (Volume Weighted Average Price), hacme dayalı olarak hesaplanan ortalama fiyatı gösterir. Gün içi işlemciler, fiyatın VWAP'a göre pozisyonunu (üzerinde/altında) analiz ederek alım-satım kararları alır.">{{ data.vwap }}</td>
-				<td data-tooltip="VWAP sinyali, güncel fiyatın VWAP'a göre durumunu gösterir. 'Fiyat Ortalamanın Üzerinde' sinyali, fiyatın ortalamadan yüksek olduğunu ve yükseliş trendinde olabileceğini; 'Fiyat Ortalamanın Altında' ise tam tersini gösterir." class="vwap-signal-cell">{{ data.vwap_signal }}</td>
-                <!-- Fibonacci kolonları -->
-                <td data-tooltip="Fiyatın şu an en yakın olduğu Fibonacci seviyesi, önemli bir destek veya dirençtir.">{{ data.closest_fibonacci_level }}</td>
-                <td data-tooltip="Fiyatın bu seviyede tersine dönme ihtimali, teknik göstergelere dayanır.">{{ data.turn_probability }}</td>
-                <td data-tooltip="Fiyatın düşme ihtimali. Yüksekse kırmızı, düşükse yeşil görünür." class="downtrend-cell" data-fall="{{ data.fall_probability }}">{{ data.fall_probability }}</td>
-                <td data-tooltip="Fiyatın yükselme ihtimali. Yüksekse yeşil, düşükse kırmızı görünür." class="uptrend-cell" data-rise="{{ data.rise_probability }}">{{ data.rise_probability }}</td>
+                <td data-tooltip="Ichimoku sinyali, trend yönünü ve olası alım/satım fırsatlarını gösterir." class="ichimoku-signal-cell">{{ data.ichimoku_signal }}</td>
+                <td data-tooltip="ATR, piyasanın volatilitesini ölçer.">{{ data.atr }}</td>
+                <td data-tooltip="ATR sinyali, volatilitenin durumunu belirtir." class="atr-signal-cell">{{ data.atr_signal }}</td>
+                <td data-tooltip="VWAP, hacme dayalı ortalama fiyatı gösterir.">{{ data.vwap }}</td>
+                <td data-tooltip="VWAP sinyali, fiyatın ortalamaya göre durumunu gösterir." class="vwap-signal-cell">{{ data.vwap_signal }}</td>
+                <td data-tooltip="Fiyatın en yakın Fibonacci seviyesi, destek veya dirençtir.">{{ data.closest_fibonacci_level }}</td>
+                <td data-tooltip="Fiyatın tersine dönme ihtimali.">{{ data.turn_probability }}</td>
+                <td data-tooltip="Fiyatın düşme ihtimali." class="downtrend-cell" data-fall="{{ data.fall_probability }}">{{ data.fall_probability }}</td>
+                <td data-tooltip="Fiyatın yükselme ihtimali." class="uptrend-cell" data-rise="{{ data.rise_probability }}">{{ data.rise_probability }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -196,6 +192,80 @@
                     updateDowntrendColors(); // Düşme ihtimali renklerini güncelle
                 })
                 .catch(error => console.error('Fiyatlar güncellenirken hata oluştu:', error));
+        }
+
+        // Diğer verileri güncelleyen fonksiyon (5 dakikada bir çalışacak)
+        function updateIndicators() {
+            fetch('/indicators/json/')  // Göstergeleri JSON formatında çeken endpoint
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('priceTableBody');
+                    tbody.querySelectorAll('tr').forEach(row => {
+                        const pair = row.getAttribute('data-pair');
+                        const indicators = data[pair];
+                        if (indicators) {
+                            // SMA Signal güncelle
+                            const smaSignalCell = row.querySelector('.signal-cell');
+                            smaSignalCell.textContent = indicators.sma_signal;
+                            // Stoch Signal güncelle
+                            const stochSignalCell = row.querySelector('.stoch-signal-cell');
+                            stochSignalCell.textContent = indicators.stoch_signal;
+                            // ADX güncelle
+                            const adxCell = row.querySelector('td:nth-child(5)'); // ADX sütunu
+                            adxCell.textContent = indicators.adx;
+                            // ADX Signal güncelle
+                            const adxSignalCell = row.querySelector('.adx-signal-cell');
+                            adxSignalCell.textContent = indicators.adx_signal;
+                            // RSI güncelle
+                            const rsiCell = row.querySelector('td:nth-child(7)'); // RSI sütunu
+                            rsiCell.textContent = indicators.rsi;
+                            // RSI Signal güncelle
+                            const rsiSignalCell = row.querySelector('.rsi-signal-cell');
+                            rsiSignalCell.textContent = indicators.rsi_signal;
+                            // Ichimoku Signal güncelle
+                            const ichimokuSignalCell = row.querySelector('.ichimoku-signal-cell');
+                            ichimokuSignalCell.textContent = indicators.ichimoku_signal;
+                            // ATR güncelle
+                            const atrCell = row.querySelector('td:nth-child(10)'); // ATR sütunu
+                            atrCell.textContent = indicators.atr;
+                            // ATR Signal güncelle
+                            const atrSignalCell = row.querySelector('.atr-signal-cell');
+                            atrSignalCell.textContent = indicators.atr_signal;
+                            // VWAP güncelle
+                            const vwapCell = row.querySelector('td:nth-child(12)'); // VWAP sütunu
+                            vwapCell.textContent = indicators.vwap;
+                            // VWAP Signal güncelle
+                            const vwapSignalCell = row.querySelector('.vwap-signal-cell');
+                            vwapSignalCell.textContent = indicators.vwap_signal;
+                            // Near Fibo güncelle
+                            const nearFiboCell = row.querySelector('td:nth-child(14)'); // Near Fibo sütunu
+                            nearFiboCell.textContent = indicators.near_fibo;
+                            // Reversal % güncelle
+                            const reversalCell = row.querySelector('td:nth-child(15)'); // Reversal % sütunu
+                            reversalCell.textContent = indicators.reversal;
+                            // Downtrend % güncelle
+                            const downtrendCell = row.querySelector('.downtrend-cell');
+                            downtrendCell.textContent = indicators.downtrend;
+                            downtrendCell.setAttribute('data-fall', indicators.downtrend);
+                            // Uptrend % güncelle
+                            const uptrendCell = row.querySelector('.uptrend-cell');
+                            uptrendCell.textContent = indicators.uptrend;
+                            uptrendCell.setAttribute('data-rise', indicators.uptrend);
+                        }
+                    });
+
+                    // Güncellenen verilere göre sinyal oklarını ve renkleri yenile
+                    updateStochSignals();
+                    updateRsiSignals();
+                    updateSignalArrows();
+                    updateAdxSignals();
+                    updateIchimokuSignals();
+                    updateAtrSignals();
+                    updateVwapSignals();
+                    updateUptrendColors();
+                    updateDowntrendColors();
+                })
+                .catch(error => console.error('Gösterge verileri güncellenirken hata oluştu:', error));
         }
 
         // Yükselme ihtimali hücrelerinin renklerini güncelle
@@ -357,8 +427,12 @@
         // Her 10 saniyede bir fiyatları güncelle
         setInterval(updatePrices, 10000);
 
-        // Sayfa yüklendiğinde ilk güncellemeyi yap
+        // Her 5 dakikada bir (300000 ms) diğer verileri güncelle
+        setInterval(updateIndicators, 300000);
+
+        // Sayfa yüklendiğinde ilk güncellemeleri yap
         updatePrices();
+        updateIndicators(); // Göstergeleri de ilk yüklemede güncelle
         updateUptrendColors();
         updateDowntrendColors();
         updateStochSignals();
