@@ -242,8 +242,8 @@ def trading_pairs(request):
         pairs = TradingPair.objects.all()
         current_prices = get_current_prices(pairs)
         price_data = {}
-        token = "5345035136:AAF9PZB78SvEm55M538OJtRirA33H1PaqUY"
-        chat_id = "-1001423950701"
+        token = "5345035136:AAF9PZB78SvEm55M538OJtRirA33H1PaqUY"  # Telegram bot tokenı
+        chat_id = "-1001423950701"  # Telegram grup veya kanal ID'si
         
         for pair in pairs:
             key = f"{pair.base_currency}/{pair.quote_currency}"
@@ -457,10 +457,20 @@ def trading_pairs(request):
                 'vwap_signal': vwap_signal
             }
             
-            # Telegram Bildirimi
-            if rise_probability != 'Veri Yok' and rise_probability >= pair.notification_threshold:
-                message = f"{key} için Yükselme İhtimali: %{rise_probability} (Güncel Fiyat: {current_price})"
-                send_telegram_message(token, chat_id, message)
+            # Telegram Bildirimi - Güncellenmiş Kısım
+            if rise_probability != 'Veri Yok':
+                current_signal = "yükseliş" if rise_probability > fall_probability else "düşüş"
+                if pair.last_signal != current_signal:  # Sinyal değiştiyse bildirim gönder
+                    if current_signal == "yükseliş" and rise_probability >= pair.notification_threshold:
+                        message = f"{key} için Yükselme İhtimali: %{rise_probability} (Güncel Fiyat: {current_price})"
+                        send_telegram_message(token, chat_id, message)
+                        pair.last_signal = "yükseliş"  # Yeni sinyali kaydet
+                        pair.save()
+                    elif current_signal == "düşüş" and fall_probability >= pair.notification_threshold:  # Düşüş için eşik eklendi
+                        message = f"{key} için Düşüş İhtimali: %{fall_probability} (Güncel Fiyat: {current_price})"
+                        send_telegram_message(token, chat_id, message)
+                        pair.last_signal = "düşüş"  # Yeni sinyali kaydet
+                        pair.save()
         
         return render(request, 'trading_pairs.html', {'price_data': price_data})
     
