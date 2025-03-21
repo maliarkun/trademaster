@@ -3,91 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ pair }} Detayları</title>
+    <!-- Sayfa stilini tanımlayan CSS -->
     <style>
         body {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            font-family: 'Roboto', sans-serif;
+            background-color: #1a1a1a; /* Koyu arka plan rengi */
+            color: #e0e0e0; /* Açık metin rengi */
+            font-family: 'Roboto', sans-serif; /* Modern bir font */
             margin: 0;
             padding: 20px;
         }
         h1 {
             text-align: center;
-            color: #ffffff;
+            color: #ffffff; /* Başlık rengi */
         }
         .detail-container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #2c2c2c;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 80%; /* Konteyner genişliği */
+            margin: 20px auto; /* Ortalanmış konteyner */
+            background-color: #2c2c2c; /* Arka plan rengi */
+            padding: 20px; /* İç boşluk */
+            border-radius: 8px; /* Köşeleri yuvarlat */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Gölge efekti */
         }
         .detail-item {
-            margin: 10px 0;
+            margin: 10px 0; /* Öğeler arası boşluk */
         }
         .detail-item label {
-            font-weight: 600;
-            color: #ffffff;
+            font-weight: 600; /* Kalın yazı */
+            color: #ffffff; /* Etiket rengi */
         }
         canvas {
-            margin-top: 20px;
-            max-width: 100%;
+            margin-top: 20px; /* Grafik üst boşluğu */
+            max-width: 100%; /* Grafik genişliği */
         }
         .fibonacci-levels {
-            margin-top: 20px;
+            margin-top: 20px; /* Fibonacci bölümü üst boşluğu */
         }
         .fibonacci-levels h3 {
-            color: #ffffff;
+            color: #ffffff; /* Başlık rengi */
         }
         .fibonacci-levels ul {
-            list-style: none;
-            padding: 0;
+            list-style: none; /* Liste stilini kaldır */
+            padding: 0; /* Sol boşluk kaldır */
         }
         .fibonacci-levels li {
-            margin: 5px 0;
+            margin: 5px 0; /* Liste öğeleri arası boşluk */
         }
         .highlight {
-            color: #ffaa00;
-            font-weight: bold;
+            color: #ffaa00; /* Vurgu rengi */
+            font-weight: bold; /* Kalın yazı */
         }
         .timeframe-selector {
-            margin-bottom: 20px;
-            text-align: center;
+            margin-bottom: 20px; /* Seçici alt boşluğu */
+            text-align: center; /* Ortalanmış metin */
         }
         select {
-            padding: 5px;
-            background-color: #3c3c3c;
-            color: #e0e0e0;
-            border: 1px solid #555;
-            border-radius: 4px;
+            padding: 5px; /* Seçici iç boşluğu */
+            background-color: #3c3c3c; /* Arka plan rengi */
+            color: #e0e0e0; /* Metin rengi */
+            border: 1px solid #555; /* Kenarlık */
+            border-radius: 4px; /* Yuvarlak köşeler */
         }
         /* Yeni buton stili */
         .back-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #1e90ff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-family: 'Roboto', sans-serif;
-            margin: 10px 0;
+            display: inline-block; /* Satır içi blok */
+            padding: 10px 20px; /* İç boşluk */
+            background-color: #1e90ff; /* Arka plan rengi */
+            color: #fff; /* Metin rengi */
+            text-decoration: none; /* Alt çizgi kaldırma */
+            border-radius: 5px; /* Yuvarlak köşeler */
+            font-family: 'Roboto', sans-serif; /* Font */
+            margin: 10px 0; /* Dış boşluk */
         }
         .back-button:hover {
-            background-color: #156bbf;
+            background-color: #156bbf; /* Üzerine gelindiğinde renk */
+        }
+        /* Yeni eklenen tablo stil */
+        .indicator-table {
+            width: 100%; /* Tablo genişliği */
+            margin: 20px 0; /* Tablo dış boşluk */
+            border-collapse: collapse; /* Kenar boşluklarını kaldır */
+            background-color: #3c3c3c; /* Arka plan rengi */
+            border-radius: 8px; /* Köşeleri yuvarlat */
+        }
+        .indicator-table th, .indicator-table td {
+            padding: 10px; /* Hücre iç boşluğu */
+            text-align: left; /* Metni sola hizala */
+            border-bottom: 1px solid #555; /* Alt kenar çizgisi */
+        }
+        .indicator-table th {
+            background-color: #4c4c4c; /* Başlık arka plan rengi */
+            color: #ffffff; /* Başlık metin rengi */
+        }
+        .indicator-table .signal {
+            font-weight: bold; /* Kalın yazı */
+        }
+        .indicator-table .signal.alim {
+            color: #28a745; /* Yeşil: Alım */
+        }
+        .indicator-table .signal.satis {
+            color: #dc3545; /* Kırmızı: Satış */
+        }
+        .indicator-table .signal.notr {
+            color: #6c757d; /* Gri: Nötr */
         }
     </style>
+    <!-- Roboto fontunu Google Fonts'tan ekle -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Chart.js ve annotation eklentisini yükle -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 </head>
 <body>
-    <h1>{{ pair }} Detayları</h1>
-    <!-- Buton buraya ekleniyor -->
+    <h1>{{ pair }} Detayları</h1> <!-- Sayfa başlığı -->
+    <!-- Geri dön butonu -->
     <div style="text-align: center;">
         <a href="{% url 'trading_pairs' %}" class="back-button">Trading Pairs</a>
     </div>
     <div class="detail-container">
+        <!-- Zaman dilimi seçici -->
         <div class="timeframe-selector">
             <label for="timeframe">Zaman Dilimi: </label>
             <select id="timeframe" onchange="updateTimeframe()">
@@ -97,30 +130,197 @@
                 <option value="week" {% if timeframe == 'week' %}selected{% endif %}>Haftalık</option>
             </select>
         </div>
-        <div class="detail-item">
-            <label>Güncel Fiyat:</label> {{ current_price }}
-        </div>
-        <div class="detail-item">
-            <label>50 Günlük SMA:</label> {{ sma_50 }}
-        </div>
-        <div class="detail-item">
-            <label>200 Günlük SMA:</label> {{ sma_200 }}
-        </div>
-        <div class="detail-item">
-            <label>Stochastic %K:</label> {{ stoch_k }}
-        </div>
-        <div class="detail-item">
-            <label>Stochastic %D:</label> {{ stoch_d }}
-        </div>
-        <div class="detail-item">
-            <label>ADX:</label> {{ adx }}
-        </div>
-        <div class="detail-item">
-            <label>RSI:</label> {{ rsi }}
-        </div>
-        <div class="detail-item">
-            <label>Son 7 Gün Fiyat Değişimi (%):</label> {{ price_change_7d }}
-        </div>
+        <!-- Teknik Göstergeler Tablosu -->
+        <table class="indicator-table">
+            <thead>
+                <tr>
+                    <th>Gösterge</th>
+                    <th>Değer</th>
+                    <th>Sinyal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Güncel Fiyat -->
+                <tr>
+                    <td>Güncel Fiyat</td>
+                    <td>{{ current_price }}</td>
+                    <td>-</td>
+                </tr>
+                <!-- SMA Sinyalleri -->
+                <tr>
+                    <td>50 Günlük SMA</td>
+                    <td>{{ sma_50 }}</td>
+                    <td>
+                        {% if sma_50 > sma_200 %}
+                            <span class="signal alim">Alım</span>
+                        {% elif sma_50 < sma_200 %}
+                            <span class="signal satis">Satış</span>
+                        {% else %}
+                            <span class="signal notr">Nötr</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>200 Günlük SMA</td>
+                    <td>{{ sma_200 }}</td>
+                    <td>-</td>
+                </tr>
+                <!-- Stochastic Sinyalleri -->
+                <tr>
+                    <td>Stochastic %K</td>
+                    <td>{{ stoch_k }}</td>
+                    <td>
+                        {% if stoch_k > stoch_d %}
+                            <span class="signal alim">Alım</span>
+                        {% elif stoch_k < stoch_d %}
+                            <span class="signal satis">Satış</span>
+                        {% else %}
+                            <span class="signal notr">Nötr</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Stochastic %D</td>
+                    <td>{{ stoch_d }}</td>
+                    <td>-</td>
+                </tr>
+                <!-- ADX Sinyalleri -->
+                <tr>
+                    <td>ADX</td>
+                    <td>{{ adx }}</td>
+                    <td>
+                        {% if adx > 25 %}
+                            <span class="signal alim">Güçlü Trend</span>
+                        {% else %}
+                            <span class="signal notr">Zayıf Trend</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- RSI Sinyalleri -->
+                <tr>
+                    <td>RSI</td>
+                    <td>{{ rsi }}</td>
+                    <td>
+                        {% if rsi < 30 %}
+                            <span class="signal alim">Aşırı Satım (Alım)</span>
+                        {% elif rsi > 70 %}
+                            <span class="signal satis">Aşırı Alım (Satış)</span>
+                        {% else %}
+                            <span class="signal notr">Nötr</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Fiyat Değişimi -->
+                <tr>
+                    <td>Son 7 Gün Fiyat Değişimi (%)</td>
+                    <td>{{ price_change_7d }}</td>
+                    <td>
+                        {% if price_change_7d > 0 %}
+                            <span class="signal alim">Yükseliş</span>
+                        {% elif price_change_7d < 0 %}
+                            <span class="signal satis">Düşüş</span>
+                        {% else %}
+                            <span class="signal notr">Değişimsiz</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- ATR Sinyalleri -->
+                <tr>
+                    <td>ATR</td>
+                    <td>{{ atr }}</td>
+                    <td>
+                        {% if atr > 1 %}
+                            <span class="signal satis">Yüksek Volatilite</span>
+                        {% else %}
+                            <span class="signal notr">Normal Volatilite</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- OBV -->
+                <tr>
+                    <td>OBV</td>
+                    <td>{{ obv }}</td>
+                    <td>-</td>
+                </tr>
+                <!-- VWAP Sinyalleri -->
+                <tr>
+                    <td>VWAP</td>
+                    <td>{{ vwap }}</td>
+                    <td>
+                        {% if current_price > vwap %}
+                            <span class="signal alim">Fiyat Üzerinde</span>
+                        {% elif current_price < vwap %}
+                            <span class="signal satis">Fiyat Altında</span>
+                        {% else %}
+                            <span class="signal notr">Eşit</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Ichimoku Bulutu Tablosu -->
+                <tr>
+                    <td colspan="3">
+                        <strong>Ichimoku Bulutu</strong>
+                        {% if ichimoku != 'Veri Yok' %}
+                        <table class="indicator-table">
+                            <thead>
+                                <tr>
+                                    <th>Bileşen</th>
+                                    <th>Değer</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tenkan-sen</td>
+                                    <td>{{ ichimoku.tenkan_sen }}</td>
+                                    <td>
+                                        {% if current_price > ichimoku.tenkan_sen %}
+                                            <span class="signal alim">Fiyat Üzerinde</span>
+                                        {% elif current_price < ichimoku.tenkan_sen %}
+                                            <span class="signal satis">Fiyat Altında</span>
+                                        {% else %}
+                                            <span class="signal notr">Eşit</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kijun-sen</td>
+                                    <td>{{ ichimoku.kijun_sen }}</td>
+                                    <td>
+                                        {% if current_price > ichimoku.kijun_sen %}
+                                            <span class="signal alim">Fiyat Üzerinde</span>
+                                        {% elif current_price < ichimoku.kijun_sen %}
+                                            <span class="signal satis">Fiyat Altında</span>
+                                        {% else %}
+                                            <span class="signal notr">Eşit</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Senkou Span A</td>
+                                    <td>{{ ichimoku.senkou_span_a }}</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>Senkou Span B</td>
+                                    <td>{{ ichimoku.senkou_span_b }}</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>Chikou Span</td>
+                                    <td>{{ ichimoku.chikou_span }}</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% else %}
+                            <p>{{ ichimoku }}</p>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Fibonacci seviyeleri bölümü -->
         <div class="fibonacci-levels">
             <h3>Fibonacci Seviyeleri ve Analiz</h3>
             <ul>
@@ -134,30 +334,32 @@
                 {% endfor %}
             </ul>
         </div>
+        <!-- Fiyat grafiği için canvas -->
         <canvas id="priceChart" height="200"></canvas>
     </div>
+    <!-- Grafik ve zaman dilimi güncelleme JavaScript kodu -->
     <script>
         console.log("Historical Prices:", {{ historical_prices|safe }});
         console.log("Fibonacci Levels:", {{ fibonacci_levels|safe }});
         console.log("Current Price:", {{ current_price|safe }});
 
         const ctx = document.getElementById('priceChart').getContext('2d');
-        const prices = {{ historical_prices|safe }};
-        const labels = prices.map(p => new Date(p.time * 1000).toLocaleDateString());
-        const data = prices.map(p => p.close);
-        const fibonacciLevels = {{ fibonacci_levels|safe }};
-        const closestLevel = "{{ closest_level }}";
-        const currentPrice = {{ current_price|safe }};
+        const prices = {{ historical_prices|safe }}; // Tarihi fiyat verileri
+        const labels = prices.map(p => new Date(p.time * 1000).toLocaleDateString()); // X ekseni etiketleri
+        const data = prices.map(p => p.close); // Y ekseni verileri (kapanış fiyatları)
+        const fibonacciLevels = {{ fibonacci_levels|safe }}; // Fibonacci seviyeleri
+        const closestLevel = "{{ closest_level }}"; // En yakın Fibonacci seviyesi
+        const currentPrice = {{ current_price|safe }}; // Güncel fiyat
 
         const chart = new Chart(ctx, {
-            type: 'line',
+            type: 'line', // Çizgi grafik türü
             data: {
                 labels: labels,
                 datasets: [{
                     label: '{{ pair }} Fiyat Grafiği',
                     data: data,
-                    borderColor: '#1e90ff',
-                    fill: false,
+                    borderColor: '#1e90ff', // Çizgi rengi
+                    fill: false, // Alan doldurma kapalı
                 }]
             },
             options: {
@@ -165,49 +367,51 @@
                     x: { 
                         display: true, 
                         title: { display: true, text: 'Tarih' },
-                        padding: { right: 60 }
+                        padding: { right: 60 } // Sağda boşluk
                     },
                     y: { 
                         display: true, 
                         title: { display: true, text: 'Fiyat' },
-                        suggestedMin: fibonacciLevels['0%'].value * 0.95,
-                        suggestedMax: fibonacciLevels['100%'].value * 1.05
+                        suggestedMin: fibonacciLevels['0%'].value * 0.95, // Y ekseni minimum
+                        suggestedMax: fibonacciLevels['100%'].value * 1.05 // Y ekseni maksimum
                     }
                 },
                 plugins: {
                     annotation: {
                         annotations: [
+                            // Fibonacci seviyeleri için yatay çizgiler
                             ...Object.entries(fibonacciLevels).map(([level, data], index) => ({
                                 type: 'line',
                                 yMin: data.value,
                                 yMax: data.value,
-                                borderColor: level === closestLevel ? '#ff0000' : '#ffaa00',
+                                borderColor: level === closestLevel ? '#ff0000' : '#ffaa00', // En yakın seviye kırmızı, diğerleri turuncu
                                 borderWidth: 1,
-                                borderDash: [5, 5],
+                                borderDash: [5, 5], // Kesikli çizgi
                                 label: {
                                     display: true,
                                     content: `${level}: ${data.value} (R: ${data.turn_probability}%, U: ${data.rise_probability}%, D: ${data.fall_probability}%)`,
-                                    position: 'right',
-                                    yAdjust: -10 * (index - 2.5),
+                                    position: 'right', // Etiket sağda
+                                    yAdjust: -10 * (index - 2.5), // Etiketlerin çakışmasını önlemek için kaydırma
                                     backgroundColor: level === closestLevel ? 'rgba(255, 0, 0, 0.7)' : 'rgba(255, 170, 0, 0.7)',
                                     color: '#ffffff',
                                     font: { size: 10 },
                                     padding: 4
                                 }
                             })),
+                            // Güncel fiyat için yatay çizgi
                             {
                                 type: 'line',
                                 yMin: currentPrice,
                                 yMax: currentPrice,
-                                borderColor: '#00ff00',
+                                borderColor: '#00ff00', // Yeşil çizgi
                                 borderWidth: 2,
-                                borderDash: [],
+                                borderDash: [], // Düz çizgi
                                 label: {
                                     display: true,
                                     content: `Current: ${currentPrice}`,
-                                    position: 'end',
-                                    xAdjust: -75,
-                                    yAdjust: 10,
+                                    position: 'end', // Etiket sonda
+                                    xAdjust: -75, // X ekseninde kaydırma
+                                    yAdjust: 10, // Y ekseninde kaydırma
                                     backgroundColor: 'rgba(0, 255, 0, 0.7)',
                                     color: '#ffffff',
                                     font: { size: 12 },
@@ -220,6 +424,7 @@
             }
         });
 
+        // Zaman dilimi değiştiğinde sayfayı güncelle
         function updateTimeframe() {
             const timeframe = document.getElementById('timeframe').value;
             window.location.href = `/pair/{{ pair }}/?timeframe=${timeframe}`;

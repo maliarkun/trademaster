@@ -3,138 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <title>Trading Pairs</title>
+    <!-- Sayfa stilini tanımlayan CSS -->
     <style>
         body {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            font-family: 'Roboto', sans-serif;
+            background-color: #1a1a1a; /* Koyu arka plan rengi */
+            color: #e0e0e0; /* Açık metin rengi */
+            font-family: 'Roboto', sans-serif; /* Modern bir font */
             margin: 0;
             padding: 20px;
         }
         h1 {
             text-align: center;
-            color: #ffffff;
+            color: #ffffff; /* Başlık rengi */
         }
         table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            background-color: #2c2c2c;
-            border-radius: 8px;
-            overflow: hidden;
+            width: 80%; /* Tablo genişliği */
+            margin: 20px auto; /* Ortalanmış tablo */
+            border-collapse: collapse; /* Kenar boşluklarını kaldır */
+            background-color: #2c2c2c; /* Tablo arka plan rengi */
+            border-radius: 8px; /* Köşeleri yuvarlat */
+            overflow: hidden; /* Taşmaları gizle */
         }
         th, td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #3c3c3c;
-            position: relative;
+            padding: 10px; /* Hücre iç boşluğu */
+            text-align: center; /* Metni ortala */
+            border-bottom: 1px solid #3c3c3c; /* Alt kenar çizgisi */
+            position: relative; /* Tooltip için pozisyon */
         }
         th {
-            background-color: #3c3c3c;
-            color: #ffffff;
+            background-color: #3c3c3c; /* Başlık arka plan rengi */
+            color: #ffffff; /* Başlık metin rengi */
         }
         tr:hover {
-            background-color: #333;
+            background-color: #333; /* Satır üzerine gelindiğinde renk değişimi */
         }
         a {
-            color: #1e90ff;
-            text-decoration: none;
+            color: #1e90ff; /* Bağlantı rengi */
+            text-decoration: none; /* Alt çizgi kaldırma */
         }
         a:hover {
-            text-decoration: underline;
+            text-decoration: underline; /* Üzerine gelindiğinde alt çizgi */
         }
-        .uptrend-high {
-            background-color: #28a745;
-            color: #fff;
-        }
-        .uptrend-low {
-            background-color: #dc3545;
-            color: #fff;
-        }
-        .downtrend-high {
-            background-color: #dc3545;
-            color: #fff;
-        }
-        .downtrend-low {
-            background-color: #28a745;
-            color: #fff;
-        }
-        .signal-cell .golden-cross {
-            color: #28a745;
-            font-size: 16px;
-        }
-        .signal-cell .death-cross {
-            color: #dc3545;
-            font-size: 16px;
-        }
-        .adx-signal-cell .strong-up {
-            color: #28a745;
-            font-size: 16px;
-        }
-        .adx-signal-cell .strong-down {
-            color: #dc3545;
-            font-size: 16px;
-        }
-        .adx-signal-cell .weak {
-            color: #6c757d;
-            font-size: 16px;
-        }
-        .stoch-signal-cell .stoch-buy-arrow {
-            color: #28a745;
-            font-size: 16px;
-        }
-        .stoch-signal-cell .stoch-sell-arrow {
-            color: #dc3545;
-            font-size: 16px;
-        }
-        .stoch-signal-cell .stoch-neutral {
-            color: #6c757d;
-            font-size: 16px;
-        }
-        .rsi-signal-cell .rsi-buy-arrow {
-            color: #28a745; /* Yeşil yukarı ok */
-            font-size: 16px;
-        }
-        .rsi-signal-cell .rsi-sell-arrow {
-            color: #dc3545; /* Kırmızı aşağı ok */
-            font-size: 16px;
-        }
-        .rsi-signal-cell .rsi-neutral {
-            color: #6c757d; /* Gri yatay çizgi */
-            font-size: 16px;
-        }
-        .tooltip {
-            position: absolute;
-            background-color: #1e90ff;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            white-space: nowrap;
-            z-index: 1000;
-            pointer-events: none;
-            display: none;
-        }
+        .uptrend-high { background-color: #28a745; color: #fff; } /* Yüksek yükselme ihtimali */
+        .uptrend-low { background-color: #dc3545; color: #fff; } /* Düşük yükselme ihtimali */
+        .downtrend-high { background-color: #dc3545; color: #fff; } /* Yüksek düşme ihtimali */
+        .downtrend-low { background-color: #28a745; color: #fff; } /* Düşük düşme ihtimali */
+        .signal-cell .golden-cross { color: #28a745; font-size: 16px; } /* Golden Cross sinyali */
+        .signal-cell .death-cross { color: #dc3545; font-size: 16px; } /* Death Cross sinyali */
+        .adx-signal-cell .strong-up { color: #28a745; font-size: 16px; } /* Güçlü yükseliş */
+        .adx-signal-cell .strong-down { color: #dc3545; font-size: 16px; } /* Güçlü düşüş */
+        .adx-signal-cell .weak { color: #6c757d; font-size: 16px; } /* Zayıf trend */
+        .stoch-signal-cell .stoch-buy-arrow { color: #28a745; font-size: 16px; } /* Stochastic alım */
+        .stoch-signal-cell .stoch-sell-arrow { color: #dc3545; font-size: 16px; } /* Stochastic satış */
+        .stoch-signal-cell .stoch-neutral { color: #6c757d; font-size: 16px; } /* Stochastic nötr */
+        .rsi-signal-cell .rsi-buy-arrow { color: #28a745; font-size: 16px; } /* RSI alım */
+        .rsi-signal-cell .rsi-sell-arrow { color: #dc3545; font-size: 16px; } /* RSI satış */
+        .rsi-signal-cell .rsi-neutral { color: #6c757d; font-size: 16px; } /* RSI nötr */
+        .ichimoku-signal-cell .ichimoku-up { color: #28a745; font-size: 16px; } /* Ichimoku yükseliş */
+        .ichimoku-signal-cell .ichimoku-down { color: #dc3545; font-size: 16px; } /* Ichimoku düşüş */
+        .atr-signal-cell .atr-high { color: #dc3545; font-size: 16px; } /* Yüksek volatilite */
+        .vwap-signal-cell .vwap-up { color: #28a745; font-size: 16px; } /* VWAP yükseliş */
+        .vwap-signal-cell .vwap-down { color: #dc3545; font-size: 16px; } /* VWAP düşüş */
+		.tooltip {
+		    position: absolute; /* Tooltip'in konumu */
+		    background-color: #1e90ff; /* Arka plan rengi */
+		    color: #fff; /* Metin rengi */
+		    padding: 10px; /* İç boşluk */
+		    border-radius: 4px; /* Yuvarlak köşeler */
+		    font-size: 14px; /* Yazı boyutu */
+		    max-width: 300px; /* Maksimum genişlik */
+		    white-space: normal; /* Metnin alt satıra geçmesini sağlar */
+		    line-height: 1.5; /* Satır aralığı */
+		    z-index: 1000; /* Üstte görünmesini sağlar */
+		    pointer-events: none; /* Tıklanamaz yapar */
+		    display: none; /* Varsayılan olarak gizli */
+		}
     </style>
+    <!-- Roboto fontunu Google Fonts'tan ekle -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Trading Pairs</h1>
+    <h1>Trading Pairs</h1> <!-- Sayfa başlığı -->
     <table id="priceTable">
         <thead>
             <tr>
+                <!-- Tablo başlıkları ve tooltip açıklamaları -->
                 <th data-tooltip="Bu sütun, işlem yapılan kripto para çiftini gösterir (örneğin, BTC/USDT).">Pairs</th>
                 <th data-tooltip="Şu anki fiyatı gösterir, piyasadaki son işlem fiyatıdır.">Price</th>
-                <th data-tooltip="Son 50 günün Basit Hareketli Ortalama fiyatı. Kısa vadeli trendleri anlamaya yardımcı olur.">50 SMA</th>
-                <th data-tooltip="Son 200 günün Basit Hareketli Ortalama fiyatı. Uzun vadeli trendleri gösterir.">200 SMA</th>
                 <th data-tooltip="50 SMA ile 200 SMA'nın kesişimi. Alım veya satış sinyali verebilir.">SMA Signal</th>
-                <th data-tooltip="Stochastic göstergesinin hızlı hattı (%K). Fiyatın aşırı alım veya satım bölgesinde olup olmadığını gösterir.">Stochastic %K</th>
-                <th data-tooltip="Stochastic göstergesinin yavaş hattı (%D). %K’nın ortalamasıdır, sinyalleri doğrulamak için kullanılır.">Stochastic %D</th>
                 <th data-tooltip="Stochastic’e göre alım veya satış sinyali. %K ve %D’nin kesişimine bakar.">Stoch Signal</th>
                 <th data-tooltip="Trendin gücünü ölçer. Yüksekse güçlü bir trend var demektir.">ADX</th>
                 <th data-tooltip="ADX’in trend gücüne göre sinyali. Güçlü veya zayıf trendi gösterir.">ADX Signal</th>
                 <th data-tooltip="Fiyatın momentumunu ölçer. 70 üzeri aşırı alım, 30 altı aşırı satım demektir.">RSI</th>
                 <th data-tooltip="RSI’ya göre durum. Aşırı alım veya satım sinyali verebilir.">RSI Signal</th>
+                <!-- Ichimoku kolonu kaldırıldı -->
+                <th data-tooltip="Ichimoku sinyali: trend yönü ve alım/satım fırsatları.">Ichimoku Signal</th>
+                <th data-tooltip="ATR (Average True Range): Piyasanın volatilitesini ölçer.">ATR</th>
+                <th data-tooltip="ATR sinyali: Volatilite durumu.">ATR Signal</th>
+                <th data-tooltip="VWAP (Volume Weighted Average Price): Hacme dayalı ortalama fiyat.">VWAP</th>
+                <th data-tooltip="VWAP sinyali: Fiyatın ortalamaya göre durumu.">VWAP Signal</th>
+                <!-- Fibonacci kolonları -->
                 <th data-tooltip="Fiyata en yakın Fibonacci seviyesi. Destek veya direnç noktalarını gösterir.">Near Fibo</th>
                 <th data-tooltip="Fiyatın bu seviyede yön değiştirme olasılığı. % olarak hesaplanır.">Reversal %</th>
                 <th data-tooltip="Fiyatın bu seviyeden düşme olasılığı. %50 üzeri kırmızı, altı yeşildir.">Downtrend %</th>
@@ -142,20 +110,24 @@
             </tr>
         </thead>
         <tbody id="priceTableBody">
+            <!-- Django döngüsü ile her işlem çifti için veri ekle -->
             {% for pair, data in price_data.items %}
             <tr data-pair="{{ pair }}">
                 <td data-tooltip="Bu çifte tıklayarak detaylı analiz sayfasına gidebilirsiniz."><a href="/pair/{{ pair }}/">{{ pair }}</a></td>
                 <td data-tooltip="Bu, şu an piyasada bu çiftin son işlem gördüğü fiyatıdır." class="current-price">{{ data.current_price }}</td>
-                <td data-tooltip="Son 50 günün fiyat ortalaması, kısa vadeli hareketleri anlamak için kullanılır.">{{ data.sma_50 }}</td>
-                <td data-tooltip="Son 200 günün fiyat ortalaması, uzun vadeli trendleri belirlemede yardımcıdır.">{{ data.sma_200 }}</td>
                 <td data-tooltip="50 SMA 200 SMA’yı geçtiğinde alım, tersi olduğunda satış sinyali olabilir." class="signal-cell">{{ data.signal }}</td>
-                <td data-tooltip="Fiyatın momentumunu ölçer, 80 üzeri aşırı alım, 20 altı aşırı satım olabilir.">{{ data.stoch_k }}</td>
-                <td data-tooltip="%K’nın 3 günlük ortalamasıdır, sinyalleri daha netleştirir.">{{ data.stoch_d }}</td>
                 <td data-tooltip="%K %D’yi geçtiğinde alım, tersinde satış sinyali verebilir." class="stoch-signal-cell">{{ data.stoch_signal }}</td>
                 <td data-tooltip="25 üzeri güçlü bir trend, 20 altı zayıf bir piyasa demektir.">{{ data.adx }}</td>
                 <td data-tooltip="Trendin yönünü ve gücünü gösterir (yukarı ok: yükseliş, aşağı ok: düşüş)." class="adx-signal-cell">{{ data.adx_signal }}</td>
                 <td data-tooltip="Fiyatın hızını ölçer, 70 üstü pahalı, 30 altı ucuz anlamına gelebilir.">{{ data.rsi }}</td>
                 <td data-tooltip="RSI’nın durumu: Aşırı alım pahalı, aşırı satım ucuz demektir." class="rsi-signal-cell">{{ data.rsi_signal }}</td>
+                <!-- Ichimoku kolonu kaldırıldı -->
+				<td data-tooltip="Ichimoku sinyali, Ichimoku Bulutu analizine dayalı trend yönünü ve olası alım/satım fırsatlarını gösterir. 'Yükseliş Trendi' veya 'Düşüş Trendi' gibi sinyaller, piyasanın genel yönünü belirtir." class="ichimoku-signal-cell">{{ data.ichimoku_signal }}</td>
+				<td data-tooltip="ATR (Average True Range), piyasanın volatilitesini ölçer. Yüksek ATR, fiyatların daha fazla dalgalandığını; düşük ATR ise daha az dalgalandığını gösterir. Volatilite, risk ve işlem stratejileri için önemlidir.">{{ data.atr }}</td>
+				<td data-tooltip="ATR sinyali, ATR değerine dayalı olarak volatilitenin durumunu belirtir. 'Yüksek Volatilite' sinyali, piyasada ani fiyat hareketleri olabileceğini gösterir ve dikkatli işlem yapmayı gerektirir." class="atr-signal-cell">{{ data.atr_signal }}</td>
+				<td data-tooltip="VWAP (Volume Weighted Average Price), hacme dayalı olarak hesaplanan ortalama fiyatı gösterir. Gün içi işlemciler, fiyatın VWAP'a göre pozisyonunu (üzerinde/altında) analiz ederek alım-satım kararları alır.">{{ data.vwap }}</td>
+				<td data-tooltip="VWAP sinyali, güncel fiyatın VWAP'a göre durumunu gösterir. 'Fiyat Ortalamanın Üzerinde' sinyali, fiyatın ortalamadan yüksek olduğunu ve yükseliş trendinde olabileceğini; 'Fiyat Ortalamanın Altında' ise tam tersini gösterir." class="vwap-signal-cell">{{ data.vwap_signal }}</td>
+                <!-- Fibonacci kolonları -->
                 <td data-tooltip="Fiyatın şu an en yakın olduğu Fibonacci seviyesi, önemli bir destek veya dirençtir.">{{ data.closest_fibonacci_level }}</td>
                 <td data-tooltip="Fiyatın bu seviyede tersine dönme ihtimali, teknik göstergelere dayanır.">{{ data.turn_probability }}</td>
                 <td data-tooltip="Fiyatın düşme ihtimali. Yüksekse kırmızı, düşükse yeşil görünür." class="downtrend-cell" data-fall="{{ data.fall_probability }}">{{ data.fall_probability }}</td>
@@ -165,12 +137,14 @@
         </tbody>
     </table>
 
+    <!-- JavaScript ile dinamik güncellemeler -->
     <script>
         // Daha önce gönderilen bildirimleri localStorage’dan al
         let sentNotifications = JSON.parse(localStorage.getItem('sentNotifications')) || [];
 
+        // Fiyatları güncelleyen fonksiyon
         function updatePrices() {
-            fetch('/prices/json/')
+            fetch('/prices/json/')  // Fiyatları JSON formatında çeken endpoint
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('priceTableBody');
@@ -183,19 +157,18 @@
                             const priceCell = row.querySelector('.current-price');
                             const oldPrice = parseFloat(priceCell.textContent);
                             priceCell.textContent = newPrice;
+                            // Fiyat değişimine göre renk animasyonu
                             if (oldPrice < newPrice) {
-                                priceCell.style.color = '#00ff00';
+                                priceCell.style.color = '#00ff00'; // Yeşil: Yükseliş
                             } else if (oldPrice > newPrice) {
-                                priceCell.style.color = '#ff0000';
+                                priceCell.style.color = '#ff0000'; // Kırmızı: Düşüş
                             }
-                            setTimeout(() => priceCell.style.color = '#e0e0e0', 1000);
+                            setTimeout(() => priceCell.style.color = '#e0e0e0', 1000); // 1 sn sonra normale dön
                         }
 
-                        // Yükseliş ihtimalini kontrol et
+                        // Yükselme ihtimalini kontrol et ve bildirim gönder
                         const riseCell = row.querySelector('.uptrend-cell');
                         const riseProbability = parseInt(riseCell.getAttribute('data-rise'));
-
-                        // %51 ve üzeri ve daha önce bildirilmemişse
                         if (riseProbability >= 51 && !sentNotifications.includes(pair)) {
                             pairsToNotify.push(pair);
                             sentNotifications.push(pair); // Bildirilen çifti kaydet
@@ -208,7 +181,7 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRFToken': '{{ csrf_token }}'
+                                'X-CSRFToken': '{{ csrf_token }}' // Django CSRF token
                             },
                             body: JSON.stringify({chat_id: '1001423950701', pairs: pairsToNotify})
                         })
@@ -219,12 +192,13 @@
                         .catch(error => console.error('Bildirim gönderilemedi:', error));
                     }
 
-                    updateUptrendColors();
-                    updateDowntrendColors();
+                    updateUptrendColors(); // Yükselme ihtimali renklerini güncelle
+                    updateDowntrendColors(); // Düşme ihtimali renklerini güncelle
                 })
                 .catch(error => console.error('Fiyatlar güncellenirken hata oluştu:', error));
         }
 
+        // Yükselme ihtimali hücrelerinin renklerini güncelle
         function updateUptrendColors() {
             document.querySelectorAll('.uptrend-cell').forEach(cell => {
                 const riseProbability = parseInt(cell.getAttribute('data-rise'));
@@ -238,6 +212,7 @@
             });
         }
 
+        // Düşme ihtimali hücrelerinin renklerini güncelle
         function updateDowntrendColors() {
             document.querySelectorAll('.downtrend-cell').forEach(cell => {
                 const fallProbability = parseInt(cell.getAttribute('data-fall'));
@@ -251,6 +226,7 @@
             });
         }
 
+        // Stochastic sinyallerini güncelle (oklarla göster)
         function updateStochSignals() {
             document.querySelectorAll('.stoch-signal-cell').forEach(cell => {
                 const signal = cell.textContent.trim();
@@ -267,6 +243,7 @@
             });
         }
 
+        // RSI sinyallerini güncelle (oklarla göster)
         function updateRsiSignals() {
             document.querySelectorAll('.rsi-signal-cell').forEach(cell => {
                 const signal = cell.textContent.trim();
@@ -283,6 +260,7 @@
             });
         }
 
+        // SMA sinyallerini güncelle (oklarla göster)
         function updateSignalArrows() {
             document.querySelectorAll('.signal-cell').forEach(cell => {
                 const signal = cell.textContent.trim();
@@ -297,6 +275,7 @@
             });
         }
 
+        // ADX sinyallerini güncelle (oklarla göster)
         function updateAdxSignals() {
             document.querySelectorAll('.adx-signal-cell').forEach(cell => {
                 const signal = cell.textContent.trim();
@@ -313,7 +292,50 @@
             });
         }
 
-        // Tooltip İşlemleri
+        // Ichimoku sinyallerini güncelle (oklarla göster)
+        function updateIchimokuSignals() {
+            document.querySelectorAll('.ichimoku-signal-cell').forEach(cell => {
+                const signal = cell.textContent.trim();
+                cell.innerHTML = '';
+                if (signal === 'Yükseliş Trendi') {
+                    cell.innerHTML = '<span class="ichimoku-up">↑</span>';
+                } else if (signal === 'Düşüş Trendi') {
+                    cell.innerHTML = '<span class="ichimoku-down">↓</span>';
+                } else {
+                    cell.innerHTML = signal;
+                }
+            });
+        }
+
+        // ATR sinyallerini güncelle (oklarla göster)
+        function updateAtrSignals() {
+            document.querySelectorAll('.atr-signal-cell').forEach(cell => {
+                const signal = cell.textContent.trim();
+                cell.innerHTML = '';
+                if (signal === 'Yüksek Volatilite') {
+                    cell.innerHTML = '<span class="atr-high">↓</span>';
+                } else {
+                    cell.innerHTML = signal;
+                }
+            });
+        }
+
+        // VWAP sinyallerini güncelle (oklarla göster)
+        function updateVwapSignals() {
+            document.querySelectorAll('.vwap-signal-cell').forEach(cell => {
+                const signal = cell.textContent.trim();
+                cell.innerHTML = '';
+                if (signal === 'Fiyat Ortalamanın Üzerinde') {
+                    cell.innerHTML = '<span class="vwap-up">↑</span>';
+                } else if (signal === 'Fiyat Ortalamanın Altında') {
+                    cell.innerHTML = '<span class="vwap-down">↓</span>';
+                } else {
+                    cell.innerHTML = signal;
+                }
+            });
+        }
+
+        // Tooltip işlemleri: Fare üzerine gelindiğinde açıklama göster
         document.querySelectorAll('[data-tooltip]').forEach(element => {
             const tooltip = document.createElement('div');
             tooltip.className = 'tooltip';
@@ -332,7 +354,7 @@
             });
         });
 
-        // Her 10 saniyede bir güncelleme yap
+        // Her 10 saniyede bir fiyatları güncelle
         setInterval(updatePrices, 10000);
 
         // Sayfa yüklendiğinde ilk güncellemeyi yap
@@ -343,6 +365,9 @@
         updateRsiSignals();
         updateSignalArrows();
         updateAdxSignals();
+        updateIchimokuSignals();
+        updateAtrSignals();
+        updateVwapSignals();
     </script>
 </body>
 </html>
