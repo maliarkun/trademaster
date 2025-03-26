@@ -1,0 +1,89 @@
+body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #2c2c2c;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #3c3c3c;
+    position: relative;
+}
+
+th {
+    background-color: #3c3c3c;
+    color: #ffffff;
+}
+
+tr:hover {
+    background-color: #333;
+}
+
+a {
+    color: #1e90ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.uptrend-high { background-color: #28a745; color: #fff; }
+.uptrend-low { background-color: #dc3545; color: #fff; }
+.downtrend-high { background-color: #dc3545; color: #fff; }
+.downtrend-low { background-color: #28a745; color: #fff; }
+
+.signal-cell .golden-cross { color: #28a745; font-size: 16px; }
+.signal-cell .death-cross { color: #dc3545; font-size: 16px; }
+
+.adx-signal-cell .strong-up { color: #28a745; font-size: 16px; }
+.adx-signal-cell .strong-down { color: #dc3545; font-size: 16px; }
+.adx-signal-cell .weak { color: #6c757d; font-size: 16px; }
+
+.stoch-signal-cell .stoch-buy-arrow { color: #28a745; font-size: 16px; }
+.stoch-signal-cell .stoch-sell-arrow { color: #dc3545; font-size: 16px; }
+.stoch-signal-cell .stoch-neutral { color: #6c757d; font-size: 16px; }
+
+.rsi-signal-cell .rsi-buy-arrow { color: #28a745; font-size: 16px; }
+.rsi-signal-cell .rsi-sell-arrow { color: #dc3545; font-size: 16px; }
+.rsi-signal-cell .rsi-neutral { color: #6c757d; font-size: 16px; }
+
+.ichimoku-signal-cell .ichimoku-up { color: #28a745; font-size: 16px; }
+.ichimoku-signal-cell .ichimoku-down { color: #dc3545; font-size: 16px; }
+
+.atr-signal-cell .atr-high { color: #dc3545; font-size: 16px; }
+
+.vwap-signal-cell .vwap-up { color: #28a745; font-size: 16px; }
+.vwap-signal-cell .vwap-down { color: #dc3545; font-size: 16px; }
+
+.tooltip {
+    position: absolute;
+    background-color: #1e90ff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    max-width: 300px;
+    white-space: normal;
+    line-height: 1.5;
+    z-index: 1000;
+    pointer-events: none;
+    display: none;
+}

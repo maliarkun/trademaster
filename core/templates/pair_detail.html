@@ -1,118 +1,17 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ pair }} Detayları</title>
-    <style>
-        body {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #ffffff;
-        }
-        .detail-container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #2c2c2c;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        .detail-item {
-            margin: 10px 0;
-        }
-        .detail-item label {
-            font-weight: 600;
-            color: #ffffff;
-        }
-        canvas {
-            margin-top: 20px;
-            max-width: 100%;
-        }
-        .fibonacci-levels {
-            margin-top: 20px;
-        }
-        .fibonacci-levels h3 {
-            color: #ffffff;
-        }
-        .fibonacci-levels ul {
-            list-style: none;
-            padding: 0;
-        }
-        .fibonacci-levels li {
-            margin: 5px 0;
-        }
-        .highlight {
-            color: #ffaa00;
-            font-weight: bold;
-        }
-        .timeframe-selector {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        select {
-            padding: 5px;
-            background-color: #3c3c3c;
-            color: #e0e0e0;
-            border: 1px solid #555;
-            border-radius: 4px;
-        }
-        .back-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #1e90ff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-family: 'Roboto', sans-serif;
-            margin: 10px 0;
-        }
-        .back-button:hover {
-            background-color: #156bbf;
-        }
-        .indicator-table {
-            width: 100%;
-            margin: 20px 0;
-            border-collapse: collapse;
-            background-color: #3c3c3c;
-            border-radius: 8px;
-        }
-        .indicator-table th, .indicator-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #555;
-        }
-        .indicator-table th {
-            background-color: #4c4c4c;
-            color: #ffffff;
-        }
-        .indicator-table .signal {
-            font-weight: bold;
-        }
-        .indicator-table .signal.alim {
-            color: #28a745;
-        }
-        .indicator-table .signal.satis {
-            color: #dc3545;
-        }
-        .indicator-table .signal.notr {
-            color: #6c757d;
-        }
-    </style>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
-</head>
-<body>
-    <h1>{{ pair }} Detayları</h1>
-    <div style="text-align: center;">
-        <a href="{% url 'trading_pairs' %}" class="back-button">Trading Pairs</a>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <link rel="stylesheet" href="{% static 'css/pairs_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-title"><i class="fas fa-chart-line"></i> {{ pair }} Detayları</h1>
     <div class="detail-container">
         <div class="timeframe-selector">
             <label for="timeframe">Zaman Dilimi: </label>
@@ -290,6 +189,58 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="ichimoku-analysis">
+                            <h3>Ichimoku Bulutu Analizi</h3>
+                            <p>Şu anki duruma göre Ichimoku Bulutu’nun yorumu:</p>
+                            <ul>
+                                {% if current_price > ichimoku.tenkan_sen and current_price > ichimoku.kijun_sen %}
+                                    <li>Fiyat hem Tenkan-sen hem de Kijun-sen çizgilerinin <span class="positive">üzerinde</span>. Bu, <span class="positive">güçlü bir yükseliş</span> trendine işaret edebilir. <span class="positive">Alım</span> için uygun bir zaman olabilir.</li>
+                                {% elif current_price < ichimoku.tenkan_sen and current_price < ichimoku.kijun_sen %}
+                                    <li>Fiyat hem Tenkan-sen hem de Kijun-sen çizgilerinin <span class="negative">altında</span>. Bu, <span class="negative">düşüş</span> trendine işaret edebilir. <span class="negative">Satış</span> için dikkatli olun.</li>
+                                {% else %}
+                                    <li>Fiyat, Tenkan-sen ve Kijun-sen çizgilerine yakın. Şu an <span class="neutral">nötr</span> bir durum var, net bir trend yok.</li>
+                                {% endif %}
+                                {% if ichimoku.senkou_span_a > ichimoku.senkou_span_b %}
+                                    <li>Bulut <span class="positive">yükseliş</span> yönünde: Senkou Span A, Senkou Span B’nin <span class="positive">üzerinde</span>. Bu, <span class="positive">yükseliş</span> trendini destekliyor.</li>
+                                {% elif ichimoku.senkou_span_a < ichimoku.senkou_span_b %}
+                                    <li>Bulut <span class="negative">düşüş</span> yönünde: Senkou Span A, Senkou Span B’nin <span class="negative">altında</span>. Bu, <span class="negative">düşüş</span> trendini destekliyor.</li>
+                                {% else %}
+                                    <li>Bulut nötr: Senkou Span A ve Senkou Span B eşit. Trend yönü <span class="neutral">belirsiz</span>.</li>
+                                {% endif %}
+                                {% if current_price > ichimoku.senkou_span_a and current_price > ichimoku.senkou_span_b %}
+                                    <li>Fiyat, Ichimoku Bulutu’nun <span class="positive">üzerinde</span>. Bu, <span class="positive">yükseliş</span> trendini güçlendiriyor.</li>
+                                {% elif current_price < ichimoku.senkou_span_a and current_price < ichimoku.senkou_span_b %}
+                                    <li>Fiyat, Ichimoku Bulutu’nun <span class="negative">altında</span>. Bu, <span class="negative">düşüş</span> trendini güçlendiriyor.</li>
+                                {% else %}
+                                    <li>Fiyat, Ichimoku Bulutu’nun içinde. Şu an <span class="neutral">belirsiz</span> bir durum var, dikkatli olun.</li>
+                                {% endif %}
+                                {% if ichimoku.chikou_span > current_price %}
+                                    <li>Chikou Span, fiyatın <span class="positive">üzerinde</span>. Bu, <span class="positive">yükseliş</span> sinyali olabilir.</li>
+                                {% elif ichimoku.chikou_span < current_price %}
+                                    <li>Chikou Span, fiyatın <span class="negative">altında</span>. Bu, <span class="negative">düşüş</span> sinyali olabilir.</li>
+                                {% else %}
+                                    <li>Chikou Span, fiyatla aynı seviyede. Şu an <span class="neutral">nötr</span> bir durum var.</li>
+                                {% endif %}
+                            </ul>
+                            <p><strong>Genel Durum:</strong>
+                                {% if current_price > ichimoku.tenkan_sen and current_price > ichimoku.kijun_sen and ichimoku.senkou_span_a > ichimoku.senkou_span_b and current_price > ichimoku.senkou_span_a and ichimoku.chikou_span > current_price %}
+                                    Tüm göstergeler <span class="positive">yükseliş</span> yönünde. <span class="positive">Alım</span> için güçlü bir sinyal var!
+                                {% elif current_price < ichimoku.tenkan_sen and current_price < ichimoku.kijun_sen and ichimoku.senkou_span_a < ichimoku.senkou_span_b and current_price < ichimoku.senkou_span_a and ichimoku.chikou_span < current_price %}
+                                    Tüm göstergeler <span class="negative">düşüş</span> yönünde. <span class="negative">Satış</span> için dikkatli olun!
+                                {% else %}
+                                    Göstergeler karışık sinyaller veriyor. Şu an <span class="neutral">beklemek</span> en iyisi olabilir.
+                                {% endif %}
+                            </p>
+                            <p><strong>Tahmin:</strong>
+                                {% if ichimoku_percentage > 50 %}
+                                    Yükseliş ihtimali: <span class="positive">{{ ichimoku_percentage|floatformat:0 }}%</span>
+                                {% elif ichimoku_percentage < 50 %}
+                                    Düşüş ihtimali: <span class="negative">{{ ichimoku_fall_percentage|floatformat:0 }}%</span>
+                                {% else %}
+                                    Yükseliş ve düşüş ihtimali eşit: <span class="neutral">50%</span>
+                                {% endif %}
+                            </p>
+                        </div>
                         {% else %}
                             <p>Ichimoku verileri şu anda mevcut değil.</p>
                         {% endif %}
@@ -302,16 +253,22 @@
             <ul>
                 {% for level, data in fibonacci_levels.items %}
                 <li {% if level == closest_level %}class="highlight"{% endif %}>
-                    {{ level }}: {{ data.value }} 
-                    (Reversal: %{{ data.turn_probability }}, 
-                    Uptrend: %{{ data.rise_probability }}, 
+                    {{ level }}: {{ data.value }}
+                    (Reversal: %{{ data.turn_probability }},
+                    Uptrend: %{{ data.rise_probability }},
                     Downtrend: %{{ data.fall_probability }})
                 </li>
                 {% endfor %}
             </ul>
         </div>
-        <canvas id="priceChart" height="200"></canvas>
+        <div class="chart-container">
+            <canvas id="priceChart"></canvas>
+        </div>
     </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/pairs_detail.js' %}"></script>
     <script>
         console.log("Historical Prices:", {{ historical_prices|safe }});
         console.log("Fibonacci Levels:", {{ fibonacci_levels|safe }});
@@ -319,7 +276,7 @@
 
         const ctx = document.getElementById('priceChart').getContext('2d');
         const prices = {{ historical_prices|safe }};
-        const labels = prices.map(p => new Date(p.time * 1000).toLocaleDateString());
+        const labels = prices.map(p => new Date(p.time * 1000).toLocaleString());
         const data = prices.map(p => p.close);
         const fibonacciLevels = {{ fibonacci_levels|safe }};
         const closestLevel = "{{ closest_level }}";
@@ -333,19 +290,74 @@
                     label: '{{ pair }} Fiyat Grafiği',
                     data: data,
                     borderColor: '#1e90ff',
-                    fill: false,
+                    backgroundColor: 'rgba(30, 144, 255, 0.1)',
+                    fill: true,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#1e90ff',
+                    pointBorderColor: '#ffffff',
+                    pointHoverRadius: 6,
+                    tension: 0.3
                 }]
             },
             options: {
+                responsive: true, // Grafiği duyarlı hale getirir
+                maintainAspectRatio: true,
+                animation: {
+                    duration: 1500,
+                    easing: 'easeInOutQuad'
+                },
+                layout: {
+                    padding: {
+                        left: 30,
+                        right: 30,
+                        top: 30,
+                        bottom: 30
+                    }
+                },
                 scales: {
-                    x: { 
-                        display: true, 
-                        title: { display: true, text: 'Tarih' },
-                        padding: { right: 60 }
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Tarih ve Saat',
+                            color: '#e0e0e0',
+                            font: { size: 14 }
+                        },
+                        ticks: {
+                            color: '#e0e0e0',
+                            font: { size: 12 },
+                            maxRotation: 45,
+                            minRotation: 45,
+                            autoSkip: true,
+                            padding: 10
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                            drawBorder: true,
+                            borderColor: '#e0e0e0'
+                        }
                     },
-                    y: { 
-                        display: true, 
-                        title: { display: true, text: 'Fiyat' },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Fiyat',
+                            color: '#e0e0e0',
+                            font: { size: 14 }
+                        },
+                        ticks: {
+                            color: '#e0e0e0',
+                            font: { size: 12 },
+                            callback: function(value) {
+                                return value.toFixed(2);
+                            },
+                            padding: 10
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                            drawBorder: true,
+                            borderColor: '#e0e0e0'
+                        },
                         suggestedMin: fibonacciLevels['0%'].value * 0.95,
                         suggestedMax: fibonacciLevels['100%'].value * 1.05
                     }
@@ -365,7 +377,7 @@
                                     content: `${level}: ${data.value} (R: ${data.turn_probability}%, U: ${data.rise_probability}%, D: ${data.fall_probability}%)`,
                                     position: 'right',
                                     yAdjust: -10 * (index - 2.5),
-                                    backgroundColor: level === closestLevel ? 'rgba(255, 0, 0, 0.7)' : 'rgba(255, 170, 0, 0.7)',
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
                                     color: '#ffffff',
                                     font: { size: 10 },
                                     padding: 4
@@ -391,6 +403,48 @@
                                 }
                             }
                         ]
+                    },
+                    legend: {
+                        labels: {
+                            color: '#e0e0e0',
+                            font: { size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 12 },
+                        bodyFont: { size: 10 },
+                        titleColor: '#ffffff',
+                        bodyColor: '#e0e0e0',
+                        borderColor: '#1e90ff',
+                        borderWidth: 1,
+                        padding: 10,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.parsed.y.toFixed(2);
+                                return label;
+                            }
+                        }
+                    },
+                    zoom: {
+                        zoom: {
+                            wheel: { enabled: true },
+                            pinch: { enabled: true },
+                            mode: 'xy'
+                        },
+                        pan: {
+                            enabled: true,
+                            mode: 'xy'
+                        },
+                        limits: {
+                            x: { min: 'original', max: 'original' },
+                            y: { min: 'original', max: 'original' }
+                        }
                     }
                 }
             }
@@ -401,5 +455,4 @@
             window.location.href = `/pair/{{ pair }}/?timeframe=${timeframe}`;
         }
     </script>
-</body>
-</html>
+{% endblock %}

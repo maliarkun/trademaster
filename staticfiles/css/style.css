@@ -1,0 +1,89 @@
+body {
+    background-color: #1a1a1a; /* Koyu arka plan rengi */
+    color: #e0e0e0; /* Açık metin rengi */
+    font-family: 'Roboto', sans-serif; /* Modern bir font */
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff; /* Başlık rengi */
+}
+
+table {
+    width: 80%; /* Tablo genişliği */
+    margin: 20px auto; /* Ortalanmış tablo */
+    border-collapse: collapse; /* Kenar boşluklarını kaldır */
+    background-color: #2c2c2c; /* Tablo arka plan rengi */
+    border-radius: 8px; /* Köşeleri yuvarlat */
+    overflow: hidden; /* Taşmaları gizle */
+}
+
+th, td {
+    padding: 10px; /* Hücre iç boşluğu */
+    text-align: center; /* Metni ortala */
+    border-bottom: 1px solid #3c3c3c; /* Alt kenar çizgisi */
+    position: relative; /* Tooltip için pozisyon */
+}
+
+th {
+    background-color: #3c3c3c; /* Başlık arka plan rengi */
+    color: #ffffff; /* Başlık metin rengi */
+}
+
+tr:hover {
+    background-color: #333; /* Satır üzerine gelindiğinde renk değişimi */
+}
+
+a {
+    color: #1e90ff; /* Bağlantı rengi */
+    text-decoration: none; /* Alt çizgi kaldırma */
+}
+
+a:hover {
+    text-decoration: underline; /* Üzerine gelindiğinde alt çizgi */
+}
+
+.uptrend-high { background-color: #28a745; color: #fff; } /* Yüksek yükselme ihtimali */
+.uptrend-low { background-color: #dc3545; color: #fff; } /* Düşük yükselme ihtimali */
+.downtrend-high { background-color: #dc3545; color: #fff; } /* Yüksek düşme ihtimali */
+.downtrend-low { background-color: #28a745; color: #fff; } /* Düşük düşme ihtimali */
+
+.signal-cell .golden-cross { color: #28a745; font-size: 16px; } /* Golden Cross sinyali */
+.signal-cell .death-cross { color: #dc3545; font-size: 16px; } /* Death Cross sinyali */
+
+.adx-signal-cell .strong-up { color: #28a745; font-size: 16px; } /* Güçlü yükseliş */
+.adx-signal-cell .strong-down { color: #dc3545; font-size: 16px; } /* Güçlü düşüş */
+.adx-signal-cell .weak { color: #6c757d; font-size: 16px; } /* Zayıf trend */
+
+.stoch-signal-cell .stoch-buy-arrow { color: #28a745; font-size: 16px; } /* Stochastic alım */
+.stoch-signal-cell .stoch-sell-arrow { color: #dc3545; font-size: 16px; } /* Stochastic satış */
+.stoch-signal-cell .stoch-neutral { color: #6c757d; font-size: 16px; } /* Stochastic nötr */
+
+.rsi-signal-cell .rsi-buy-arrow { color: #28a745; font-size: 16px; } /* RSI alım */
+.rsi-signal-cell .rsi-sell-arrow { color: #dc3545; font-size: 16px; } /* RSI satış */
+.rsi-signal-cell .rsi-neutral { color: #6c757d; font-size: 16px; } /* RSI nötr */
+
+.ichimoku-signal-cell .ichimoku-up { color: #28a745; font-size: 16px; } /* Ichimoku yükseliş */
+.ichimoku-signal-cell .ichimoku-down { color: #dc3545; font-size: 16px; } /* Ichimoku düşüş */
+
+.atr-signal-cell .atr-high { color: #dc3545; font-size: 16px; } /* Yüksek volatilite */
+
+.vwap-signal-cell .vwap-up { color: #28a745; font-size: 16px; } /* VWAP yükseliş */
+.vwap-signal-cell .vwap-down { color: #dc3545; font-size: 16px; } /* VWAP düşüş */
+
+.tooltip {
+    position: absolute; /* Tooltip'in konumu */
+    background-color: #1e90ff; /* Arka plan rengi */
+    color: #fff; /* Metin rengi */
+    padding: 10px; /* İç boşluk */
+    border-radius: 4px; /* Yuvarlak köşeler */
+    font-size: 14px; /* Yazı boyutu */
+    max-width: 300px; /* Maksimum genişlik */
+    white-space: normal; /* Metnin alt satıra geçmesini sağlar */
+    line-height: 1.5; /* Satır aralığı */
+    z-index: 1000; /* Üstte görünmesini sağlar */
+    pointer-events: none; /* Tıklanamaz yapar */
+    display: none; /* Varsayılan olarak gizli */
+}

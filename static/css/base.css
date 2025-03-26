@@ -1,0 +1,62 @@
+/* Genel Stil */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #1c2526; /* Koyu arka plan */
+    color: #e0e0e0; /* Açık metin rengi */
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Stilleri */
+.navbar {
+    background-color: #1e90ff; /* Zemin rengi */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand h1 {
+    margin: 0;
+    font-size: 24px;
+    color: white;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 15px;
+}
+
+/* Buton Stilleri */
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ffffff; /* Buton zemini */
+    color: #1e90ff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+    border: 1px solid #1e90ff;
+}
+
+.back-button:hover {
+    background-color: #1e90ff;
+    color: #ffffff;
+}
+
+.back-button i {
+    margin-right: 5px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1e90ff;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
