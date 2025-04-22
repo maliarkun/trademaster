@@ -4,7 +4,8 @@ from django.http import JsonResponse  # JSON formatında yanıt döndürmek içi
 import requests  # HTTP istekleri yapmak için kullanılır
 from .models import TradingPair  # TradingPair modelini veritabanından almak için kullanılır
 from django.core.cache import cache  # Önbellekleme işlemleri için kullanılır
-
+from core.models import Signal, TradingPair
+from django.core.paginator import Paginator
 
 # Telegram'a mesaj göndermek için fonksiyon
 def send_telegram_message(token, chat_id, message):
@@ -671,3 +672,35 @@ def get_prices_json(request):
     pairs = TradingPair.objects.all()
     prices = get_current_prices(pairs)
     return JsonResponse(prices)
+
+# yeni işlemler buradan sonra
+def indicator_page(request, indicator_name):
+    """
+    Belirtilen indikatör için işlem çiftleri ve sinyalleri gösterir.
+    """
+    # İşlem çiftleri ve zaman dilimlerini al
+    pairs = TradingPair.objects.all().prefetch_related('time_frames')
+
+    # Sinyalleri al
+    signals = Signal.objects.filter(indicator=indicator_name).order_by('-timestamp')
+
+    # Sayfalama
+    paginator = Paginator(signals, 50)  # Her sayfada 50 sinyal
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'signals': page_obj,  # Sayfalanmış sinyaller
+        'pairs': pairs,
+        'indicator_name': indicator_name,
+    }
+    return render(request, 'indicator.html', context)
+
+def bollinger_bands_page(request):
+    return indicator_page(request, 'Bollinger Bands')
+
+def rsi_page(request):
+    return indicator_page(request, 'RSI')
+
+def macd_page(request):
+    return indicator_page(request, 'MACD')

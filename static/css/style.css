@@ -10,7 +10,22 @@ h1 {
     text-align: center;
     color: #ffffff; /* Başlık rengi */
 }
-
+h2 {
+    text-align: center;
+    color: #ffffff; /* Başlık rengi */
+}
+h3 {
+    text-align: center;
+    color: #ffffff; /* Başlık rengi */
+}
+h4 {
+    text-align: center;
+    color: #ffffff; /* Başlık rengi */
+}
+h5 {
+    text-align: center;
+    color: #ffffff; /* Başlık rengi */
+}
 table {
     width: 80%; /* Tablo genişliği */
     margin: 20px auto; /* Ortalanmış tablo */

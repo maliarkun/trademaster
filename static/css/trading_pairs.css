@@ -11,6 +11,11 @@ h1 {
     color: #ffffff;
 }
 
+h2 {
+    text-align: center;
+    color: #ffffff;
+}
+
 table {
     width: 80%;
     margin: 20px auto;
@@ -86,4 +91,23 @@ a:hover {
     z-index: 1000;
     pointer-events: none;
     display: none;
+}
+
+.signalalim {
+    color: green; /* Örnek stil */
+    font-weight: bold;
+}
+.signalsatis {
+    color: red; /* Örnek stil */
+    font-weight: bold;
+}
+.signalnotr {
+    color: gray; /* Örnek stil */
+    font-weight: bold;
+}
+
+.pagination {
+    text-align: center;
+    color: #ffffff;
+    padding : 20px
 }

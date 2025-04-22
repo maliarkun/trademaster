@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/trading_pairs.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Bollinger Bands</h1>
+
+    <!-- İşlem Çiftleri Tablosu -->
+    <h2>İşlem Çiftleri ve Zaman Dilimleri</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>İşlem Çifti</th>
+                <th>Seçili Zaman Dilimleri</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pair in pairs %}
+                <tr>
+                    <td>{{ pair }}</td> <!-- __str__ metodu ile BTC/USDT gibi -->
+                    <td>
+                        {% for tf in pair.time_frames.all %}
+                            {{ tf.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">Hiç işlem çifti bulunamadı.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Sinyaller Tablosu -->
+    <h2>Sinyaller</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>İşlem Çifti</th>
+                <th>Sinyal</th>
+                <th>Fiyat</th>
+                <th>Zaman Dilimi</th>
+                <th>Oluşturulma Zamanı</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for signal in signals %}
+                <tr>
+                    <td>{{ signal.trading_pair }}</td> <!-- __str__ metodu ile BTC/USDT gibi -->
+                    <td>{{ signal.signal }}</td>
+                    <td>{{ signal.price }}</td>
+                    <td>{{ signal.time_frame.name }}</td>
+                    <td>{{ signal.timestamp }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Hiç sinyal bulunamadı.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

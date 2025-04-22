@@ -101,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
@@ -127,3 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRYPTOCOMPARE_API_KEY = 'your_api_key'  # Ücretsiz API key alın
 CACHE_TIMEOUT = 300  # 5 dakika
+
+TELEGRAM_TOKEN = '5345035136:AAF9PZB78SvEm55M538OJtRirA33H1PaqUY'
+TELEGRAM_CHAT_ID = '-1001423950701'

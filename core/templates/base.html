@@ -19,8 +19,10 @@
                 <h1>Crypto Trading Analysis</h1>
             </div>
             <div class="navbar-links">
-                <a href="{% url 'trading_pairs' %}" class="back-button"><i class="fas fa-coins"></i> Trading Pairs</a>
-                <a href="#" class="back-button"><i class="fas fa-home"></i> Home</a>
+                <a href="{% url 'trading_pairs' %}" class="back-button"><i class="fas fa-coins"></i> Genel Bakış</a>
+                <a href="{% url 'bollinger_bands_page' %}" class="back-button"><i class="fas fa-chart-line"></i> Bollinger Bands</a>
+                <a href="{% url 'rsi_page' %}" class="back-button"><i class="fas fa-signal"></i> RSI</a>
+                <a href="{% url 'macd_page' %}" class="back-button"><i class="fas fa-chart-area"></i> MACD</a>
                 <a href="#" class="back-button"><i class="fas fa-info-circle"></i> About</a>
             </div>
         </nav>
